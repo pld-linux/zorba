@@ -1,13 +1,13 @@
 Summary:	General purpose XQuery processor
-Summary(pl.UTF-8):	procesor XQuery
+Summary(pl.UTF-8):	Procesor XQuery ogólnego przeznaczenia
 Name:		zorba
 Version:	0.9.21
 Release:	0.1
-License:	Apache
-Group:		Applications
-Source0:	http://dl.sourceforge.net/zorba/%{name}-%{version}.tar.gz
+License:	Apache v2.0
+Group:		Applications/Text
+Source0:	https://downloads.sourceforge.net/zorba/%{name}-%{version}.tar.gz
 # Source0-md5:	dc4ffe43b191700b93c4802b8baeec38
-URL:		http://www.zorba-xquery.com/
+URL:		https://github.com/28msec/zorba
 BuildRequires:	bison >= 2.3
 BuildRequires:	boost-devel >= 1.32
 BuildRequires:	cmake >= 2.4
@@ -28,12 +28,24 @@ environments such as other programming languages extended with XML
 processing capabilities, browsers, database servers, XML message
 dispatchers, or smartphones. Its architecture employes a modular
 design, which allows customizing the Zorba query processor to the
-environment’s needs. In particular the architecture of the query
+environment's needs. In particular the architecture of the query
 processor allows a pluggable XML store (e.g. main memory, DOM stores,
 persistent disk-based large stores, S3 stores). Zorba runs on most
 platforms and is available under the Apache license v2.
 
-#%description -l pl.UTF-8
+%description -l pl.UTF-8
+Zorba to procesor XQuery ogólnego przeznaczenia, będący implementacją
+w C++ rodziny specyfikacji W3C. Nie jest to baza danych XML. Procesor
+zapytań został zaprojektowany jako osadzalny w wielu różnych
+środowiskach, takich jak inne języki programowania z możliwością
+przetwarzania XML, przeglądarki, serwery baz danych, obsługa
+komunikatów XML czy smartfony. Architektura jest oparta o modularny
+projekt, pozwalający na dostosowanie procesora zapytań Zorba do
+potrzeb środowiska. W szczególności architektura procesora zapytań
+pozwala na wtyczki dla mechanizmów przechowywania XML (np. pamięć
+główna, przestrzeń DOM, pamięć trwała na dysku, przestrzeń S3). Zorba
+działa na większości platform i jest dostępna na licencji Apache w
+wersji 2.
 
 %package devel
 Summary:	Header files for zorba library
