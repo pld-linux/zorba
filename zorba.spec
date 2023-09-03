@@ -83,6 +83,7 @@ Pliki nagłówkowe biblioteki zorba.
 install -d build
 cd build
 %cmake .. \
+	-DZORBA_LIB_DIRNAME=%{_lib} \
 	-DZORBA_XQUERYX=ON
 
 %{__make}
