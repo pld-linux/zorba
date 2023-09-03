@@ -28,6 +28,7 @@ BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libuuid-devel
 BuildRequires:	libxml2-devel >= 1:2.7.0
 BuildRequires:	libxslt-devel
+BuildRequires:	rpmbuild(macros) >= 2.028
 BuildRequires:	xerces-c-devel >= 2.8.0
 Requires:	libxml2 >= 1:2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
