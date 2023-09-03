@@ -1,0 +1,11 @@
+--- zorba-3.1/src/util/locale.cpp.orig	2015-06-16 13:26:38.000000000 +0200
++++ zorba-3.1/src/util/locale.cpp	2023-09-02 20:11:53.139086600 +0200
+@@ -26,7 +26,7 @@
+ # include <clocale>
+ # include <cstdlib>                     /* for getenv(3) */
+ # include <langinfo.h>                  /* for nl_langinfo(3) */
+-# include <xlocale.h>                   /* for newlocale(3) */
++# include <locale.h>                   /* for newlocale(3) */
+ #endif /* WIN32 */
+ 
+ // Zorba
