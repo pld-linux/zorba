@@ -1,0 +1,109 @@
+--- zorba-3.1/test/driver/testdriver_mt.cpp.orig	2015-06-16 13:26:38.000000000 +0200
++++ zorba-3.1/test/driver/testdriver_mt.cpp	2025-01-22 20:06:45.077984129 +0100
+@@ -44,9 +44,9 @@
+ #include "testdriver_common.h"
+ 
+ // These are included last because they define the <stdint.h>'s INTMAX_C and UINTMAX_C
++#include <boost/filesystem/directory.hpp>
+ #include <boost/filesystem/operations.hpp>
+ #include <boost/filesystem/path.hpp>
+-#include <boost/filesystem/convenience.hpp>
+ 
+ 
+ namespace fs = boost::filesystem;
+@@ -293,7 +293,7 @@
+   if (!fileStream.good())
+   {
+     fs::path dirPath = filePath;
+-    dirPath = dirPath.remove_leaf();
++    dirPath = dirPath.remove_filename();
+     
+     if (!fs::exists(dirPath.file_string()))
+     {
+@@ -321,7 +321,7 @@
+   if (!fileStream.good())
+   {
+     fs::path dirPath = filePath;
+-    dirPath = dirPath.remove_leaf();
++    dirPath = dirPath.remove_filename();
+     
+     if (!fs::exists(dirPath.generic_string()))
+     {
+@@ -462,10 +462,12 @@
+     relativeQueryFile = queries->theQueryFilenames[queryNo];
+     queryPath = fs::path(queries->theQueriesDir) / (relativeQueryFile);
+ 
++    fs::path tmpPath(queryPath);
++    tmpPath.replace_extension("");
+ #if !defined(BOOST_FILESYSTEM_VERSION) || BOOST_FILESYSTEM_VERSION == 2
+-    std::string testName = fs::change_extension(queryPath, "").file_string();
++    std::string testName = tmpPath.file_string();
+ #else
+-    std::string testName = fs::change_extension(queryPath, "").generic_string();
++    std::string testName = tmpPath.generic_string();
+ #endif
+ 
+     ulong pos = testName.find("Queries");
+@@ -489,7 +491,8 @@
+     // with this query. If the .spec file exists, read its contents to
+     // extract args to be passed to the query (e.g., external var bindings),
+     // exprected errors, or the pathnames of reference-result files.
+-    specPath = fs::change_extension(queryPath, ".spec");
++    specPath = fs::path(queryPath);
++    specPath.replace_extension(".spec");
+     if (fs::exists(specPath))
+     {
+ #if !defined(BOOST_FILESYSTEM_VERSION) || BOOST_FILESYSTEM_VERSION == 2
+@@ -527,7 +530,7 @@
+       }
+ 
+       fs::path refFilePath = fs::path(queries->theRefsDir) / (relativeRefFile);
+-      refFilePath = fs::change_extension(refFilePath, ".xml.res");
++      refFilePath.replace_extension(".xml.res");
+ 
+       if (fs::exists(refFilePath)) 
+         refFileSpecified = true;
+@@ -540,7 +543,7 @@
+     // previous runs of the query. Finaly, create (if necessary) all the dirs
+     // in the pathname of the result and error files.
+     resultFilePath = fs::path(queries->theResultsDir) / (relativeQueryFile);
+-    resultFilePath = fs::change_extension(resultFilePath, (".res_" + tnoStr));
++    resultFilePath.replace_extension((".res_" + tnoStr));
+ 
+     if (fs::exists(resultFilePath))
+       fs::remove(resultFilePath);
+@@ -550,7 +553,7 @@
+ 
+ #if 0
+     errorFilePath = fs::path(queries->theResultsDir) / (relativeQueryFile);
+-    errorFilePath = fs::change_extension(errorFilePath, (".err_" + tnoStr));
++    errorFilePath.replace_extension((".err_" + tnoStr));
+ 
+     if (fs::exists(errorFilePath))
+       fs::remove(errorFilePath);
+@@ -1090,13 +1093,13 @@
+     {
+       fs::path queryPath = *dirIte;
+ 
+-      if (!fs::is_regular(queryPath))
++      if (!fs::is_regular_file(queryPath))
+       {
+         //std::cerr << "Found non-regular file " << queryPath.string() << std::endl;
+         continue;
+       }
+ 
+-      if (fs::extension(queryPath) != testExtension)
++      if (queryPath.extension().string() != testExtension)
+       {
+         //std::cerr << "Found no-query file " << queryPath.string() << std::endl;
+         continue;
+@@ -1227,7 +1230,8 @@
+   for (long i = 0; i < queries.theNumQueries; i++)
+   {
+     fs::path queryPath = fs::path(pathPrefix) / (queries.theQueryFilenames[i]);
+-    fs::path queryName = fs::change_extension(queryPath, "");
++    fs::path queryName(queryPath);
++    queryName.replace_extension("");
+     bool queryWasKnownToFail = false;
+     if (haveKnownFailures) 
+     {

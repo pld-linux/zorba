@@ -15,6 +15,8 @@ Patch0:		%{name}-tr1.patch
 Patch1:		%{name}-icu.patch
 Patch2:		%{name}-glibc.patch
 Patch3:		%{name}-includes.patch
+Patch4:		libxml2.12.patch
+Patch5:		boost1.85.patch
 URL:		https://github.com/28msec/zorba
 BuildRequires:	bison >= 2.4
 BuildRequires:	boost-devel >= 1.33
@@ -74,10 +76,12 @@ Pliki nagłówkowe biblioteki zorba.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P5 -p1
 
 %build
 install -d build

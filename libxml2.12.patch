@@ -1,0 +1,44 @@
+--- zorba-3.1/src/store/naive/loader.h.orig	2015-06-16 13:26:38.000000000 +0200
++++ zorba-3.1/src/store/naive/loader.h	2025-01-22 11:36:28.295406325 +0100
+@@ -19,6 +19,7 @@
+ #include <stack>
+ #include <libxml/parser.h>
+ #include <libxml/xmlstring.h>
++#include <libxml/xmlversion.h>
+ 
+ #include "store/api/item.h"
+ #include "store/api/load_properties.h"
+@@ -111,7 +112,11 @@
+       const zstring& docUri,
+       std::istream& xmlStream) = 0;
+ 
++#if LIBXML_VERSION >= 21200
++  static void error( void *ctx, const xmlError* );
++#else
+   static void error( void *ctx, xmlErrorPtr );
++#endif
+ };
+ 
+ 
+--- zorba-3.1/src/store/naive/loader_fast.cpp.orig	2015-06-16 13:26:38.000000000 +0200
++++ zorba-3.1/src/store/naive/loader_fast.cpp	2025-01-22 11:36:50.828868572 +0100
+@@ -21,6 +21,7 @@
+ #include <iostream>
+ 
+ #include <libxml/xmlmemory.h>
++#include <libxml/xmlversion.h>
+ 
+ #include <zorba/store_consts.h>
+ 
+@@ -100,7 +101,11 @@
+ /*******************************************************************************
+ 
+ ********************************************************************************/
++#if LIBXML_VERSION >= 21200
++void XmlLoader::error(void* ctx, const xmlError* error)
++#else
+ void XmlLoader::error(void* ctx, xmlErrorPtr error)
++#endif
+ {
+   if ( error->level == XML_ERR_NONE )
+     return;
