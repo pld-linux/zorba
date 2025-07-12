@@ -2,7 +2,7 @@ Summary:	General purpose XQuery processor
 Summary(pl.UTF-8):	Procesor XQuery ogólnego przeznaczenia
 Name:		zorba
 Version:	3.1
-Release:	2
+Release:	3
 License:	Apache v2.0
 Group:		Applications/Text
 # up to 2.9.1
